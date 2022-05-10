@@ -4,6 +4,7 @@
 EM/robCov\.png
 
 *.mat
+*.DS_Store
 
 *.png
 
