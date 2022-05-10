@@ -192,15 +192,6 @@ classdef linsys
           end
           [this.A,this.B,this.C,~,V,this.Q,~] = canonize(this.A,this.B,this.C,[],this.Q,[],method);
         end
-        function this=scale(this,k)
-           %Transforms the system by scaling states
-           if numel(k)==1 %All states scaled equally
-               k=k*ones(this.order,1);
-           elseif numel(k)~=this.order
-               error('')
-           end
-           this=this.transform(diag(k));
-        end
         function [this]=transform(this,V)
             [this.A,this.B,this.C,this.Q]=transform(V,this.A,this.B,this.C,this.Q);
         end
