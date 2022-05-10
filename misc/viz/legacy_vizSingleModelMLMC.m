@@ -101,6 +101,11 @@ for i=1:size(CD,2)
     %p(i)=plot(model{1}.smoothStates(i,:),'LineWidth',2,'DisplayName',['Deterministic state, \tau=' num2str(-1./log(model{1}.J(i,i)),3)]);
     title(latentName(i,:))
     %title('(Smoothed) Step-response states')
+    if i<=size(CD,2)-2
+        title([latentName(i,:), '\tau=' num2str(-1./log(model{1}.J(i,i)),3)]) %DMMO
+    else
+        title(latentName(i,:))
+    end
     p(i)=plot(XUrot(i,:),'LineWidth',2,'Color','k');
     %patch([1:size(model{1}.Xf,2),size(model{1}.Xf,2):-1:1]',[model{1}.Xf(i,:)+sqrt(squeeze(model{1}.Pf(i,i,:)))', fliplr(model{1}.Xf(i,:)-sqrt(squeeze(model{1}.Pf(i,i,:)))')]',p(i).Color,'EdgeColor','none','FaceAlpha',.3)
     ax=gca;
@@ -161,6 +166,8 @@ else %IF DATA PRESENT:
 N=size(Y,2);
 viewPoints=[1,40,51,151,251,651,940,951,1001,1101,N-11]+5;
 viewPoints=[151,1044,1051,1075,1251]+3;
+viewPoints=[151,1040,1051,1251]+3;
+viewPoints=[35,41,460,490,650]
 %viewPoints=[151,175,1044,1051,1075,1251]+3;
 binw=4; %Plus minus 2
 viewPoints(viewPoints>N-binw/2)=[];
@@ -201,7 +208,8 @@ for k=1:3
         axis tight
         if k==1
             %title(['Output at t=' num2str(viewPoints(i))])
-            txt={'early adap (1-4)','late adap (last 4)','early wash (1-5)','early(ish) wash. (26-30)','mid wash. (201-205)'};
+%             txt={'early adap (1-4)','late adap (last 4)','early wash (1-5)','early(ish) wash. (26-30)','mid wash. (201-205)'};
+            txt={'Early Adapt (151)','Late Adap (1040)','Early Post (1051)','Mid Post (1251)'};
             %txt={'early adap (1-4)','early(ish) adap. (26-30)','late adap (last 4)','early wash (1-5)','early(ish) wash. (26-30)','mid wash. (201-205)'};
             title(txt{i})
             ax=gca;
