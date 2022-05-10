@@ -168,14 +168,25 @@ if n2<n1
     Raux=R;
     R=diag(inf(ny,1));
     R(opts.includeOutputIdx,opts.includeOutputIdx)=Raux;
+    
+    
     Caux=C;
     C=zeros(size(C));
     C(opts.includeOutputIdx,:)=Caux;
+    
     %And recompute the most likely values for D: (most likely values are not
-    %the same with or without C contributions)
+    %the same witsh or without C contributions)
+
     Daux=D;
-    D=Y/U; %Computing least-squares estimate for these components of D.
+    if ~isempty(opts.fixD)
+        if sum(opts.fixD(:,1),1)==0
+            D=[zeros(length(D),2)];
+        end
+    else
+        D=Y/U; %Computing least-squares estimate for these components of D.
+    end
     D(opts.includeOutputIdx,:)=Daux;
+
 end
 end  %Function
 
