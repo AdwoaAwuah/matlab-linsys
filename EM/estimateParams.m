@@ -117,9 +117,16 @@ elseif isempty(opts.fixC) && ~isempty(opts.fixD) %Only C is to be estimated
 elseif isempty(opts.fixD) && ~isempty(opts.fixC) %Only D
     C=opts.fixC;
     D(:,opts.indD)=(yu - C*xu)/[uu];
+% elseif ~isempty(opts.fixC1) && ~isempty(opts.fixD)
+%     D=opts.fixD;
+%     newY= Y - opts.fixC1;
+%     %recompute yx, xy,xx without the fix state
+% %     newsYx= newY*                            
+%     C=(yx - D(:,opts.indD)*xu')/[SP+xx];
+    
 else
   C=opts.fixC;
-  D=opts.fixD;
+  D=opts.fixD; 
 end
 
 if isempty(U)
