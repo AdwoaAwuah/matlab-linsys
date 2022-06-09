@@ -36,7 +36,7 @@ end
     Cinv=pinv(C)'; %pseudoinverse of the C (C is not a squared matrix)
     X = Y'*Cinv; %x= y/C getting the dynamics of the hidden states (we are using least-sqaures seee: Penrose, Roger (1956))
     Y2= C * X' ; % Data reconstructed with the perdetermine dynamics
-    
+    model{1}.Data=Y;
     model{1}.States=X;
     model{1}.Out=Y2;
     model{1}.Res=Y-Y2;
@@ -61,7 +61,10 @@ gamma=1;
 map=[flipud(mid+ (ex1-mid).*([1:N]'/N).^gamma); mid; (mid+ (ex2-mid).*([1:N]'/N).^gamma)];
 
 %% Plot
-ytl={'HIP','GLU','TFL','RF','VL','VM','SEMT','SEMB','BF','MG','LG','SOL','PER','TA'};
+% ytl={'HIP','GLU','TFL','RF','VL','VM','SEMT','SEMB','BF','MG','LG','SOL','PER','TA'};
+ytl={'TA', 'PER', 'SOL', 'LG', 'MG', 'BF', 'SEMB', 'SEMT', 'VM', 'VL', 'RF', 'HIP','TFL', 'GLU'};
+ytl={'TA', 'PER', 'SOL', 'LG', 'MG', 'BF', 'SEMB', 'SEMT', 'VM', 'VL', 'RF','TFL', 'GLU'};
+ytl(end:-1:1) = ytl(:);
 % muscleOrder={'TA', 'PER', 'SOL', 'LG', 'MG', 'BF', 'SEMB', 'SEMT', 'VM', 'VL', 'RF', 'TFL', 'GLU', 'HIP'};
 % ytl={'TA', 'PER', 'SOL', 'LG', 'MG', 'BF', 'SEMB', 'SEMT', 'VM', 'VL', 'RF', 'TFL','HIP', 'GLU'}
 yt=1:length(ytl);
@@ -133,8 +136,22 @@ for i=1:size(CD,2)-1
 
 end
 subplot(Nx,Ny,Ny+i+[0,Ny])% Second row: checkerboards
+caxis([-1 1])
 colorbar
-colorbar('Ticks',[-1,0,1],'TickLabels',{'<Dom','Same','<Non-dm'})
+colorbar('Ticks',[-1,1],'TickLabels',{'<Dom','<Non-dm'})
+ax=gca;
+ax.Position=ax.Position+[0 .03 0 0];
+hold on
+aa=axis;
+plot([0.1 1.9]+.5, [15 15],'k','LineWidth',2,'Clipping','off')
+text(.8,17,'DS','FontSize',6)
+plot([2.1 5.9]+.5, [15 15],'k','LineWidth',2,'Clipping','off')
+text(2.8,17,'SINGLE','FontSize',6)
+plot([6.1 7.9]+.5, [15 15],'k','LineWidth',2,'Clipping','off')
+text(6.9,17,'DS','FontSize',6)
+plot([8.1 11.9]+.5, [15 15],'k','LineWidth',2,'Clipping','off')
+text(9,17,'SWING','FontSize',6)
+axis(aa)
 % linkaxes(ph,'y')
 %Covariances
 %subplot(Nx,Ny,Ny)
@@ -161,6 +178,8 @@ N=size(Y,2);
 % viewPoints=[1,40,51,151,251,651,940,951,1001,1101,N-11]+5;
 % viewPoints=[40,51,940,951,1100 1340];
 viewPoints=[40,51,940,951,1050,1240]; %OLDER ADULTS and YOUNGER ADULTS 
+% viewPoints=[40,53,935,943,1030,1135]; %OLDER ADULTS and YOUNGER ADULTS 
+% viewPoints=[35,43,480,493,680]; %PATR - PATS 
 % viewPoints=[40,51,590,600,780]; %NIMBUS 
 % viewPoints=[35,41,460,490,650];
 % viewPoints=[130,140,2130,2140,2250,2550]+3;
@@ -170,9 +189,9 @@ binw=4; %Plus minus 2
 viewPoints(viewPoints>N-binw/2)=[];
 Ny=length(viewPoints);
 M=length(model);
-dd=Y(:,1:50);
-dd=dd-mean(dd,2); %Baseline residuals under flat model
-meanVar=mean(sum(dd.^2,1),2);
+% dd=Y(:,1:40);
+% dd=dd-mean(dd,2); %Baseline residuals under flat model
+% meanVar=mean(sum(dd.^2,1),2);
 for k=1:3
     for i=1:Ny
         switch k
@@ -282,7 +301,8 @@ end
 legend('Location','NorthEastOutside','AutoUpdate','off')
 yline(nanmean(aux1(1:40)))
 yl=ax.YAxis.Limits;
-pp=patch([50 950 950 50],[0 0 .6 0.6],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none');
+pp=patch([50 940 940 50],[0 0 .6 0.6],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none');
+% pp=patch([40 490 490 40],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
 uistack(pp,'bottom')
 ax.YAxis.Limits=yl;
 axis tight
@@ -301,7 +321,8 @@ grid on
 ax.YAxis.Label.FontSize=12;
 legend('Location','NorthEastOutside','AutoUpdate','off')
 yline(nanmean(aux1(1:40)))
-pp=patch([50 950 950 50],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none');
+pp=patch([50 940 940 50],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none');% OLD and YA
+% pp=patch([40 490 490 40],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
 uistack(pp,'bottom')
 axis tight
 yticks('auto')
@@ -317,7 +338,8 @@ grid on
 ax.YAxis.Label.FontSize=12;
 legend('Location','NorthEastOutside','AutoUpdate','off')
 yline(nanmean(aux1(1:40)))
-pp=patch([50 950 950 50],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none');
+pp=patch([50 940 940 50],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); % OLD and YA 
+% pp=patch([40 490 490 40],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
 uistack(pp,'bottom')
 axis tight
 yticks('auto')
