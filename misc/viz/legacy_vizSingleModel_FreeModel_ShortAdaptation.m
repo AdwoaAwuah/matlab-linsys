@@ -174,16 +174,14 @@ if nargin<2
 
 else %IF DATA PRESENT:
 N=size(Y,2);
-viewPoints=[35,44,480,493,680]; %PATR - PATS 
-
-
+viewPoints=[35,44,480,493,590,680]; %PATR - PATS 
 binw=4; %Plus minus 2
 viewPoints(viewPoints>N-binw/2)=[];
 Ny=length(viewPoints);
 M=length(model);
-% dd=Y(:,1:40);
-% dd=dd-mean(dd,2); %Baseline residuals under flat model
-% meanVar=mean(sum(dd.^2,1),2);
+dd=Y(:,2:39);
+dd=dd-mean(dd,2); %Baseline residuals under flat model
+meanVar=1;%mean(sum(dd.^2,1),2);
 for k=1:3
     for i=1:Ny
         switch k
@@ -217,8 +215,6 @@ for k=1:3
         axis tight
         if k==1
             %title(['Output at t=' num2str(viewPoints(i))])
-%             txt={'early adap (1-4)','late adap (last 4)','early wash (1-5)','early(ish) wash. (26-30)','mid wash. (201-205)'};
-%             txt={'base late','early adap','late adap','early wash','mid wash','late wash'};
             txt={'Base Late','Early Adapt','Late Adap','Early Post','Mid Post','Late Post'};
             title(txt{i})
             ax=gca;
@@ -226,7 +222,7 @@ for k=1:3
         end
         if k==3
 %             title(['RMSE=' num2str(sqrt(mean(sum(dd.^2,1),2)))])
-            title(['RMSE=' num2str(sqrt(mean(mean((dd.^2),1),2)))]) %/sqrt(meanVar
+            title(['RMSE=' num2str(sqrt(mean(mean((dd.^2),1),2))/sqrt(meanVar))]) %/sqrt(meanVar
 %              title(['normalized RMSE=' num2str(sqrt(mean(sum(dd.^2,1),2))/sqrt(meanVar))])
 %              title(['RRMSE=' num2str(sqrt(mean((dd.^2),1)))])
 %             title(['RMSE=' num2str(sqrt(mean(mean(dd,2).^2)))])
@@ -246,7 +242,7 @@ subplot(Nx,Ny,1+9*Ny)
 hold on
 dd=model{1}.Res;
 %dd=Y-CD*projY;
-aux1=sqrt(mean(dd.^2));%/sqrt(meanVar);
+aux1=sqrt(mean(dd.^2))/sqrt(meanVar);
 binw=5;
 aux1=conv(aux1,ones(1,binw)/binw,'valid'); %Smoothing
 p1=plot(aux1,'LineWidth',2,'DisplayName',['Regression Model'],'Color','k');
@@ -294,7 +290,7 @@ legend('Location','NorthEastOutside','AutoUpdate','off')
 yline(nanmean(aux1(1:40)))
 yl=ax.YAxis.Limits;
 % pp=patch([50 950 950 50],[0 0 .6 0.6],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none');
-pp=patch([40 490 490 40],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
+pp=patch([40 490 490 40],[0 0 .3 .3],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
 uistack(pp,'bottom')
 ax.YAxis.Limits=yl;
 axis tight
