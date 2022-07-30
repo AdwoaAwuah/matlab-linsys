@@ -1,4 +1,4 @@
-function [fh,model] = legacy_vizSingleModel_FreeModel_ShortAdaptation(singleModel,Y,U)
+function [fh,model] = legacy_vizSingleModel_FreeModel_Transitions(singleModel,Y,U)
 
 %Funtion to plot the time courses of the hidden states, data, fit and the
 %residual of the model
@@ -174,7 +174,7 @@ if nargin<2
 
 else %IF DATA PRESENT:
 N=size(Y,2);
-viewPoints=[35,44,480,493,590,680]; %PATR - PATS 
+viewPoints=[90,200,500,600,800,950]; %PATR - PATS 
 binw=4; %Plus minus 2
 viewPoints(viewPoints>N-binw/2)=[];
 Ny=length(viewPoints);
@@ -214,9 +214,9 @@ for k=1:3
         caxis([-1 1])
         axis tight
         if k==1
-            %title(['Output at t=' num2str(viewPoints(i))])
-            txt={'Base Late','Early Adapt','Late Adap','Early Post','Mid Post','Late Post'};
-            title(txt{i})
+            title(['Output at t=' num2str(viewPoints(i))])
+%             txt={'Base Late','Early Adapt','Late Adap','Early Post','Mid Post','Late Post'};
+%             title(txt{i})
             ax=gca;
             ax.Title.FontSize=10;
         end
@@ -290,7 +290,7 @@ legend('Location','NorthEastOutside','AutoUpdate','off')
 yline(nanmean(aux1(1:40)))
 yl=ax.YAxis.Limits;
 % pp=patch([50 950 950 50],[0 0 .6 0.6],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none');
-pp=patch([40 490 490 40],[0 0 max(aux1) max(aux1)],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
+pp=patch([100 1050 1050 100],[0 0 max(aux1) max(aux1)],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
 uistack(pp,'bottom')
 ax.YAxis.Limits=yl;
 axis tight
@@ -310,7 +310,7 @@ ax.YAxis.Label.FontSize=12;
 legend('Location','NorthEastOutside','AutoUpdate','off')
 yline(nanmean(aux1(1:40)))
 % pp=patch([50 950 950 50],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none');% OLD and YA
-pp=patch([40 490 490 40],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
+pp=patch([100 1050 1050 100],[0 0 max(aux1) max(aux1)],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
 uistack(pp,'bottom')
 axis tight
 yticks('auto')
@@ -327,7 +327,7 @@ ax.YAxis.Label.FontSize=12;
 legend('Location','NorthEastOutside','AutoUpdate','off')
 yline(nanmean(aux1(1:40)))
 % pp=patch([50 950 950 50],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); % OLD and YA 
-pp=patch([40 490 490 40],[0 0 1 1],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
+pp=patch([100 1050 1050 100],[0 0 max(aux1) max(aux1)],.7*ones(1,3),'FaceAlpha',.5,'EdgeColor','none'); %PATR - PATS 
 uistack(pp,'bottom')
 axis tight
 yticks('auto')
